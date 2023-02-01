@@ -12,6 +12,7 @@ import br.com.cursospring.entities.User;
 import br.com.cursospring.repositories.UserRepository;
 import br.com.cursospring.services.exceptions.DatabaseException;
 import br.com.cursospring.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService {
@@ -43,13 +44,13 @@ public class UserService {
 	}
 	
 	public User update(Long id, User obj) {
-//		try {
+		try {
 			User entity = repository.getReferenceById(id);
 			updateData(entity, obj);
 			return repository.save(entity);
-//		} catch (EntityNotFoundException e) {
-//			throw new ResourceNotFoundException(id);
-//		}	
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}	
 	}
 
 	private void updateData(User entity, User obj) {
